@@ -1496,7 +1496,7 @@ if (settings.dev) title.classList.add("devMode");
 let t = 0;
 let hue = 0;
 game.on("updateState", () => {
-    t+=5;
+    t++;
     const speed = 10 / (1 + Math.exp((10000 - t) / 1000));
     hue += speed;
     hue %= 360;
