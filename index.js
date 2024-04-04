@@ -1464,46 +1464,46 @@ Loader.start().then(
 const title = document.getElementById("title");
 game.on("message", msg => {
     if (msg.level < 0) return;
-    if (msg.author !== "SkapClientAdmin") return;
+    if (msg.author !== game.USERNAME) return;
 
     if (msg.content.match(/^do a barrel roll([!]*|\.)$/i)) {
         renderer.doABarrelRoll();
     }
 });
 if (settings.dev) title.classList.add("devMode");
-// let hueRotateStart = null;
-// let canToggle = true;
-// title.addEventListener("click", e => {
-//     if (e.detail < 5) canToggle = true;
-//     if (e.detail >= 5) {
-//         if (!canToggle) return;
-//         canToggle = false;
+let hueRotateStart = null;
+let canToggle = true;
+title.addEventListener("click", e => {
+    if (e.detail < 5) canToggle = true;
+    if (e.detail >= 5) {
+        if (!canToggle) return;
+        canToggle = false;
 
-//         if (hueRotateStart) hueRotateStart = null;
-//         else {
-//             if (!confirm("Activating this will result in flashing lights and may be nauseating. Are you sure?")) return;
-//             hueRotateStart = Date.now();
-//         }
-//     }
+        if (hueRotateStart) hueRotateStart = null;
+        else {
+            if (!confirm("Activating this will result in flashing lights and may be nauseating. Are you sure?")) return;
+            hueRotateStart = Date.now();
+        }
+    }
+});
+function hueRotate() {
+    window.requestAnimationFrame(hueRotate);
+
+    const t = hueRotateStart ? (Date.now() - hueRotateStart) / 10 : 0;
+    document.body.style.setProperty("--hue-rotate", `${t}deg`);
+}
+window.requestAnimationFrame(hueRotate);
+// let t = 0;
+// let hue = 0;
+// game.on("updateState", () => {
+//     t++;
+//     const speed = 10 / (1 + Math.exp((10000 - t) / 1000));
+//     hue += speed;
+//     hue %= 360;
+//     document.body.style.setProperty("--hue-rotate", `${Math.round(1000 * hue / 1000)}deg`);
+//     const chance = 1 / (1 + Math.exp((20000 - t) / 1000));
+//     if (Math.random() < chance) game.socket.ws.close();
 // });
-// function hueRotate() {
-//     window.requestAnimationFrame(hueRotate);
-
-//     const t = hueRotateStart ? (Date.now() - hueRotateStart) / 10 : 0;
-//     document.body.style.setProperty("--hue-rotate", `${t}deg`);
-// }
-// window.requestAnimationFrame(hueRotate);
-let t = 0;
-let hue = 0;
-game.on("updateState", () => {
-    t++;
-    const speed = 10 / (1 + Math.exp((10000 - t) / 1000));
-    hue += speed;
-    hue %= 360;
-    document.body.style.setProperty("--hue-rotate", `${Math.round(1000 * hue / 1000)}deg`);
-    const chance = 1 / (1 + Math.exp((20000 - t) / 1000));
-    if (Math.random() < chance) game.socket.ws.close();
-})
 // #endregion
 
 // #region WebSocket Closing
