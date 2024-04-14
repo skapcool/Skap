@@ -622,12 +622,18 @@ createGameBtn.addEventListener("click", _ => {
 
 // #region Join
 const gameDiv = document.getElementById("gameDiv");
-game.once("join", _ => {
+game.on("join", _ => {
     document.activeElement?.blur();
     changeScreen(gameDiv, 0);
-});
-game.on("join", _ => {
     chatAsClient("Joined game");
+});
+// #endregion
+
+// #region Leave
+game.on("leave", _ => {
+    document.activeElement?.blur();
+    changeScreen(titleScreen, 1);
+    chatAsClient("Left game");
 });
 // #endregion
 

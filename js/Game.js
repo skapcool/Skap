@@ -51,6 +51,7 @@ export default class Game {
 
         this.socket.on("initMap", msg => this.initMap(msg.m));
         this.socket.on("updateMap", msg => this.updateMap(msg.m));
+        this.socket.on("leave", msg => this.emit("leave"));
         this.socket.on("join", msg => {
             this.initMap(msg.i.map);
             this.updateState(msg.i.states);
@@ -331,6 +332,10 @@ export default class Game {
                 resolve();
             });
         });
+    }
+    leave() {
+        this.socket.send({ e: "leave" });
+        this.emit("leave");
     }
     // #endregion
 
