@@ -848,12 +848,12 @@ function updatePowerPresets(powerPreset, remove = false) {
 const chatDiv = document.getElementById("chatDiv");
 
 const inviteRegex = /^INVITE ([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(?: (.+))?$/;
-const inviteAuthors = ["SkapClientAdmin"];
+const inviteNotAuthors = ["VoidMohy"];
 game.on("message", msg => {
     const content = msg.content.replaceAll("&lt;", "<").replaceAll("&gt;", ">");
     const { author, level } = msg;
 
-    if (inviteAuthors.includes(author)) {
+    if (!inviteNotAuthors.includes(author)) {
         const inviteMatch = content.match(inviteRegex);
         if (inviteMatch) {
             const id = inviteMatch[1];
