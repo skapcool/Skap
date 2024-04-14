@@ -501,7 +501,18 @@ function createGameItem(customGame) {
         createElement("span", ["cgUUID"], null, [`UUID: ${customGame.id}`])
     ]);
 
-    const el = createElement("button", customGame.private ? ["customGame", "private"] : ["customGame"], null, settings.dev ? [name, row1, row2] : [name, row1]);
+    const invite = createElement("button", ["invite"], null, "Invite");
+    invite.addEventListener("click", e => {
+        e.stopPropagation();
+        const inviteStr = `INVITE ${customGame.id}${customGame.private ? ` ${customGame.private}` : ""}`;
+        navigator.clipboard.writeText(inviteStr)
+            .then(() => console.log("Copied invite string"))
+            .catch(e => console.error("Failed to copy invite string:", e));
+    });
+
+    const el = createElement("button", customGame.private ? ["customGame", "private"] : ["customGame"], null,
+        settings.dev ? [name, row1, row2, invite] : [name, row1]
+    );
     if (customGame.private) {
         if (settings.dev) {
             el.addEventListener("click", _ => {
@@ -856,8 +867,10 @@ game.on("message", msg => {
     if (!inviteNotAuthors.includes(author)) {
         const inviteMatch = content.match(inviteRegex);
         if (inviteMatch) {
+            console.log(inviteMatch);
             const id = inviteMatch[1];
-            createChatMsg(author, level, createChatInvite(id), true);
+            const password = inviteMatch[2] ?? null;
+            createChatMsg(author, level, createChatInvite(id, password), true);
             return;
         }
     }
@@ -865,16 +878,19 @@ game.on("message", msg => {
     createChatMsg(author, level, content);
 });
 
-/** @param {string} id  */
-function createChatInvite(id) {
-    const el = createElement("button", ["invite"], null, ["Invitation to custom game"]);
+/** 
+ * @param {string} id 
+ * @param {string} password
+ */
+function createChatInvite(id, password) {
+    const el = createElement("button", ["invite"], null, [`Invitation to${password ? " private " : ""}custom game`]);
 
     if (settings.dev) el.dataset.id = id;
 
     el.addEventListener("click", _ => {
         el.disabled = true;
         el.innerText = "Joining...";
-        game.joinGame(id).then(_ => {
+        game.joinGame(id, password).then(_ => {
             el.innerText = "Joined!";
         });
     });
@@ -1064,7 +1080,7 @@ game.on("sendMessage", /** @param {string} msg */ msg => {
 
         const args = Array.from(msg.matchAll(argRegex)).map(a => a[1] ?? a[2]);
         const output = command.execute(...args);
-        
+
         commandOutput(output);
         return result &&= !command.preventSend;
     }, true);

@@ -552,6 +552,24 @@ label[for="createGameFile"]:has([disabled]) {
     color: #00ff00;
 }
 
+.invite {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    width: 5em;
+    height: 2em;
+
+    cursor: pointer;
+
+    background: #20202020;
+    color: #ffffff;
+    border: .1em solid #ffffff;
+    border-radius: .5em;
+}
+.invite:hover {
+    background: #80808080;
+}
+
 /* #endregion */
 
 .cornerBtn {
