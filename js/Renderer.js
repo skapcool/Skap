@@ -260,12 +260,6 @@ export default class Renderer {
             skins: {
                 "[SkapClientAdmin]": {
                     textures: {
-                        get dead() { return this.array[1]; },
-                        set dead(v) { return this.array[1] = v; },
-                        get frozen() { return this.array[2]; },
-                        set frozen(v) { return this.array[2] = v; },
-                        get deadFrozen() { return this.array[3]; },
-                        set deadFrozen(v) { return this.array[3] = v; },
                         get(dead = false, frozen = false) { return this.array[(+!!frozen) << 1 | (+!!dead)] },
                         array: [
                             this.loadImage("./assets/skins/SkapClient/normal.svg"),
@@ -277,12 +271,6 @@ export default class Renderer {
                 },
                 TotallyNotNKY: {
                     textures: {
-                        get dead() { return this.array[1]; },
-                        set dead(v) { return this.array[1] = v; },
-                        get frozen() { return this.array[2]; },
-                        set frozen(v) { return this.array[2] = v; },
-                        get deadFrozen() { return this.array[3]; },
-                        set deadFrozen(v) { return this.array[3] = v; },
                         get(dead = false, frozen = false) { return this.array[(+!!frozen) << 1 | (+!!dead)] },
                         array: [
                             this.loadImage("./assets/skins/NKY/normal.svg"),
