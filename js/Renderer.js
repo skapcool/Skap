@@ -258,7 +258,7 @@ export default class Renderer {
                 },
             },
             skins: {
-                SkapClientAdmin: {
+                "[SkapClientAdmin]": {
                     textures: {
                         get dead() { return this.array[1]; },
                         set dead(v) { return this.array[1] = v; },
@@ -268,13 +268,30 @@ export default class Renderer {
                         set deadFrozen(v) { return this.array[3] = v; },
                         get(dead = false, frozen = false) { return this.array[(+!!frozen) << 1 | (+!!dead)] },
                         array: [
-                            this.loadImage("./assets/skins/SkapClient.svg"),
-                            this.loadImage("./assets/skins/SkapClientDead.svg"),
-                            this.loadImage("./assets/skins/SkapClientFrozen.svg"),
-                            this.loadImage("./assets/skins/SkapClientDeadFrozen.svg"),
+                            this.loadImage("./assets/skins/SkapClient/normal.svg"),
+                            this.loadImage("./assets/skins/SkapClient/dead.svg"),
+                            this.loadImage("./assets/skins/SkapClient/frozen.svg"),
+                            this.loadImage("./assets/skins/SkapClient/deadFrozen.svg"),
                         ],
                     }
-                }
+                },
+                TotallyNotNKY: {
+                    textures: {
+                        get dead() { return this.array[1]; },
+                        set dead(v) { return this.array[1] = v; },
+                        get frozen() { return this.array[2]; },
+                        set frozen(v) { return this.array[2] = v; },
+                        get deadFrozen() { return this.array[3]; },
+                        set deadFrozen(v) { return this.array[3] = v; },
+                        get(dead = false, frozen = false) { return this.array[(+!!frozen) << 1 | (+!!dead)] },
+                        array: [
+                            this.loadImage("./assets/skins/NKY/normal.svg"),
+                            this.loadImage("./assets/skins/NKY/dead.svg"),
+                            this.loadImage("./assets/skins/NKY/frozen.svg"),
+                            this.loadImage("./assets/skins/NKY/deadFrozen.svg"),
+                        ],
+                    }
+                },
             },
             entity: {
                 /** @type {{ [type: string]: HTMLImageElement }} */
