@@ -889,7 +889,7 @@ game.on("message", msg => {
  * @param {string} password
  */
 function createChatInvite(id, password) {
-    const el = createElement("button", ["invite"], null, [`Invitation to${password ? " private " : ""}custom game`]);
+    const el = createElement("button", ["invite"], null, [`Invitation to ${password ? "private " : ""}custom game`]);
 
     if (settings.dev) el.dataset.id = id;
 
