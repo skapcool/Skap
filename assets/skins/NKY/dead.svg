@@ -11,5 +11,7 @@
             <rect width="200" height="200" transform="translate(400,0) rotate(40)" fill="#ff00ff40" />
         </g>
     </g>
-    <circle cx="50" cy="50" r="50" fill="#ff000080" />
+    <circle cx="50" cy="50" r="47.5"
+            fill="#ff000080"
+            stroke="#ff0000" stroke-width="5.01" />
 </svg>
