@@ -39,7 +39,6 @@ let currentTimeout = null;
  * @param {0 | 1} direction 0 = to left, 1 = to right
  */
 function changeScreen(screen) {
-    console.log(screen);
     clearTimeout(currentTimeout);
     
     const duration = 500;
@@ -932,7 +931,6 @@ game.on("message", msg => {
     if (!inviteNotAuthors.includes(author)) {
         const inviteMatch = content.match(inviteRegex);
         if (inviteMatch) {
-            console.log(inviteMatch);
             const id = inviteMatch[1];
             const password = inviteMatch[2] ?? null;
             createChatMsg(author, level, createChatInvite(id, password), true);
