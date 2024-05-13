@@ -658,7 +658,6 @@ game.on("leave", _ => {
 // #region Player List
 let focusSelfPlayerList = false;
 const playerList = document.getElementById("playerList");
-sortAreas;
 game.on("updateState", /** @param {State} state */ state => {
     while (playerList.firstChild) playerList.lastChild.remove();
 
@@ -1136,7 +1135,7 @@ const commands = [
     },
 ];
 
-const commandAreaRegex = /^\/(\S*)/;
+const commandNameRegex = /^\/(\S*)/;
 const argRegex = / (?:(?:"(.+?)")|(\S+))/g;
 game.on("sendMessage", /** @param {string} msg */ msg => {
     const name = msg.match(commandNameRegex)?.[1];
