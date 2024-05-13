@@ -631,44 +631,78 @@ label[for="createGameFile"]:has([disabled]) {
     height: 100%;
 }
 
-/* #region playerList */
+/* #region player list */
 #playerList {
-    list-style: none;
-    overflow-y: auto;
     position: absolute;
     inset: .5em auto auto .5em;
     margin: 0;
-    padding: .3em 0 .3em .7em;
+    padding: .25em;
     width: min(19em, 25%);
-    height: 14em;
+    height: 20em;
     background: #000000c0;
     border: .1em solid white;
     border-radius: .2em .2em .5em .2em;
 
+    scroll-behavior: smooth;
+
+    list-style: none;
+    overflow-y: auto;
     user-select: none;
+    scrollbar-width: thin;
+    scrollbar-color: #808080 #404040;
 
     --deadColor: #ff0000;
     --frozenColor: #7cabd2;
     --deadfrozenColor: #c040c0;
 }
 
-#playerList::-webkit-scrollbar {
-    display: none;
+.playerListSection {
+    --hue: 0;
+    list-style: none;
+    padding: .3em 0;
+    border-bottom: .1em solid #ffffff20;
+}
+.playerListSection::before {
+    content: attr(data-area);
+    display: block;
+
+    margin-bottom: .5em;
+
+    --color: hsl(var(--hue), 75%, 75%);
+    color: var(--color);
+    
+    width: 100%;
+    text-align: center;
+    border-bottom: .1em solid var(--color);
 }
 
-.playerLI {
-    color: white;
-}
+.playerListPlayer {
+    color: hsl(var(--hue), 75%, 95%);
+    display: flex;
+    flex-direction: row;
 
-.playerLI.dead {
+    padding: .05em .25em;
+
+    gap: .5em;
+}
+.playerListPlayerPadding {
+    display: inline-block;
+    flex-grow: 1;
+
+    background-image: linear-gradient(to bottom, transparent 45%, #ffffff40 45% 55%, transparent 55%);
+}
+.playerListPlayer.self {
+    background-color: hsla(var(--hue), 100%, 50%, 0.5);
+}
+.playerListPlayer.dead {
     color: var(--deadColor);
 }
 
-.playerLI.frozen {
+.playerListPlayer.frozen {
     color: var(--frozenColor);
 }
 
-.playerLI.dead.frozen {
+.playerListPlayer.dead.frozen {
     color: var(--deadfrozenColor);
 }
 
