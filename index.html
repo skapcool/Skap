@@ -25,12 +25,12 @@
     </head>
     <body>
         <div id="background" hidden></div>
-        <div id="loadingScreen" class="screen active initial">
+        <div id="loadingScreen" class="screen active">
             <button id="skipLoading">Skip Loading</button>
             <h2 id="loading">Loading...</h2>
             <progress id="loadingBar" max="1" value="0"></progress>
         </div>
-        <div id="titleScreen" class="screen inactive initial">
+        <div id="titleScreen" class="screen" hidden>
             <h1 id="title">SkapClient</h1>
             <h2 id="subtitle">
                 <small>Note: this version is not very complete. Expect unfinished features and bugs. In other news:</small><br>
@@ -58,14 +58,14 @@
                 <button id="logoutBtn">Logout</button>
             </div>
         </div>
-        <div id="changingRoom" class="screen inactive initial">
+        <div id="changingRoom" class="screen" hidden>
             <button class="cornerBtn left top back" id="changingRoomBackBtn" title="Back"></button>
             <div id="playerPreview">
                 <input id="playerBody" type="color" >
                 <select id="playerHat" data-hat="cowboy"></select>
             </div>
         </div>
-        <div id="gameList" class="screen inactive initial">
+        <div id="gameList" class="screen" hidden>
             <button class="cornerBtn left top back" id="gameListBackBtn" title="Back"></button>
             <button class="cornerBtn right top refresh" id="gameListRefreshBtn" title="Refresh"></button>
             <button class="customGame">
@@ -80,7 +80,7 @@
                 </div>
             </button>
         </div>
-        <div id="createGameMenu" class="screen inactive initial">
+        <div id="createGameMenu" class="screen" hidden>
             <button class="cornerBtn left top back" id="gameListBackBtn" title="Back"></button>
 
             <h2>Create Custom Game</h2>
@@ -97,7 +97,7 @@
             
             <button id="createGameBtn"></button>
         </div>
-        <div id="gameDiv" class="screen inactive initial">
+        <div id="gameDiv" class="screen" hidden>
             <canvas id="canvas">canvas unsupported. no idea how you didn't crash</canvas>
             <div id="HUD">
                 <ol id="playerList"></ol>

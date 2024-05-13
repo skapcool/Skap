@@ -64,13 +64,15 @@ body {
 
 /* #region screens */
 .screen {
-    width: 100vw;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
     position: absolute;
     top: 0;
-    left: -100vw;
+    left: 100dvw;
 
     --time: .5s;
+
+    transition: left var(--time);
 }
 
 .screen[hidden] {
@@ -78,77 +80,8 @@ body {
 }
 
 .screen.active {
-    left: 0vw;
+    left: 0dvw;
 }
-
-.screen.inactive {
-    left: 200vw;
-}
-
-.screen.inactive.initial {
-    display: none !important;
-}
-
-.screen.active.right {
-    animation: slideinright var(--time) ease-in-out 0s 1 normal forwards;
-}
-
-.screen.active.left {
-    animation: slideinleft var(--time) ease-in-out 0s 1 normal forwards;
-}
-
-.screen.inactive.right {
-    animation: slideoutright var(--time) ease-in-out 0s 1 normal forwards;
-}
-
-.screen.inactive.left {
-    animation: slideoutleft var(--time) ease-in-out 0s 1 normal forwards;
-}
-
-.screen.initial {
-    animation-duration: 0s;
-}
-
-@keyframes slideinright {
-    from {
-        left: -100vw;
-    }
-
-    to {
-        left: 0vw;
-    }
-}
-
-@keyframes slideinleft {
-    from {
-        left: 100vw;
-    }
-
-    to {
-        left: 0vw;
-    }
-}
-
-@keyframes slideoutright {
-    from {
-        left: 0vw;
-    }
-
-    to {
-        left: 100vw;
-    }
-}
-
-@keyframes slideoutleft {
-    from {
-        left: 0vw;
-    }
-
-    to {
-        left: -100vw;
-    }
-}
-
 /* #endregion */
 
 /* #region loading screen */

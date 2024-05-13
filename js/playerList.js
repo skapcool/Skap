@@ -228,17 +228,19 @@ export const areaMatcher = {
 	/** For overworld area names */
 	overworld: {
 		regex: /^(?<area>\D+)(?:\s+(?<number>\d+))?(?:\s+(?<other>\S+))?$/,
+		/** Tails to place at top */
 		other: [
-			/** VICTORY will be before BOSS and FINALE */
+			/** XXXXXXXXX VICTORY will be first */
 			"VICTORY",
 			"BOSS",
 			"FINALE",
 		],
+		/** Areas to place at top */
 		areas: [
-			/** Exodus will be first */
+			/** Exodus XXX will be first */
 			"Exodus",
 			"April fools",
-			"Nightmare",
+			"prookl is cool",
 		]
 	}
 };

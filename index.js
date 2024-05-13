@@ -30,29 +30,37 @@ function showHide(open, close) {
     open.hidden = false;
 }
 
+/** @type {HTMLElement} */
 let activeScreen = document.querySelector(".screen.active");
+let currentTimeout = null;
 /**
  * 
  * @param {HTMLElement} screen 
  * @param {0 | 1} direction 0 = to left, 1 = to right
  */
-function changeScreen(screen, direction = 0) {
-    let dir = ["left", "right"][+!!direction];
-    let notdir = ["right", "left"][+!!direction];
+function changeScreen(screen) {
+    console.log(screen);
+    clearTimeout(currentTimeout);
+    
+    const duration = 500;
 
-    activeScreen.classList.remove("initial");
-    activeScreen.classList.remove("active");
-    activeScreen.classList.add("inactive");
-    activeScreen.classList.remove(notdir);
-    activeScreen.classList.add(dir);
-    setTimeout(e => e.classList.contains("inactive") && hide(e), 1000, activeScreen);
+    activeScreen.tabIndex = -1;
+    activeScreen.animate([
+        { left: "0dvw" },
+        { left: "-100dvw" }
+    ], { duration, easing: "ease-in-out", fill: "forwards" });
+    currentTimeout = setTimeout((curr, next) => {
+        hide(curr);
+        next.tabIndex = 0;
+        currentTimeout = null;
+    }, duration, activeScreen, screen);
 
     show(screen);
-    screen.classList.remove("initial");
-    screen.classList.remove("inactive");
-    screen.classList.add("active");
-    screen.classList.remove(notdir);
-    screen.classList.add(dir);
+    screen.animate([
+        { left: "100dvw" },
+        { left: "0dvw" }
+    ], { duration, easing: "ease-in-out", fill: "forwards" });
+    activeScreen.style.setProperty("left", "0dvw");
 
     document.activeElement?.blur();
 
