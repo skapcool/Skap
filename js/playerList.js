@@ -228,7 +228,7 @@ export const areaMatcher = {
 	/** For overworld area names */
 	overworld: {
 		regex: /^(?<area>\D+)(?:\s+(?<number>\d+))?(?:\s+(?<other>\S+))?$/,
-		/** Tails to place at top */
+		/** "Other"s to place at top */
 		other: [
 			/** XXXXXXXXX VICTORY will be first */
 			"VICTORY",
@@ -242,7 +242,15 @@ export const areaMatcher = {
 			"April fools",
 			"prookl is cool",
 		]
-	}
+	},
+	/** For underworld area names */
+	underworld: {
+		regex: /^(?:\((?:(?<number>\d+)|(?<other>\?))\)\s+)?(?<area>.+)$/,
+		other: [
+		],
+		areas: [
+		]
+	},
 };
 
 const getNumber = str => Number([...str.matchAll(/\d/g)].map(([m]) => m).join(""));

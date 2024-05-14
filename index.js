@@ -543,6 +543,7 @@ function createGameItem(customGame) {
         return el;
     }
     el.addEventListener("click", _ => {
+        handleJoinForAreaMatcher(customGame);
         game.joinGame(customGame.id);
     });
     return el;
@@ -655,6 +656,22 @@ game.on("leave", _ => {
 // #endregion
 
 // #region Player List
+let currentAreaMatcher = areaMatcher.overworld;
+/**
+ * @param {import("./js/Game.js").CustomGame} game 
+ */
+function handleJoinForAreaMatcher(game) {
+    const lower = game.mapName.toLowerCase();
+    const starts = lower.startsWith.bind(lower);
+    if (starts("overworld")) {
+        currentAreaMatcher = areaMatcher.overworld;
+    } else if (starts("underworld")) {
+        currentAreaMatcher = areaMatcher.underworld;
+    } else {
+        // Default
+        currentAreaMatcher = areaMatcher.overworld;
+    }
+}
 window.updatePlayerList = true;
 let focusSelfPlayerList = false;
 const playerList = document.getElementById("playerList");
@@ -663,7 +680,7 @@ game.on("updateState", /** @param {State} state */ state => {
     while (playerList.firstChild) playerList.lastChild.remove();
 
     const self = state.playerList.find(([name]) => name === game.USERNAME);
-    const areas = sortAreas(state.playerList, areaMatcher.overworld);
+    const areas = sortAreas(state.playerList, currentAreaMatcher);
 
     playerList.append(...areas.map(area => createPlayerListSection(area, self)));
 
