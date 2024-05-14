@@ -655,14 +655,17 @@ game.on("leave", _ => {
 // #endregion
 
 // #region Player List
+window.updatePlayerList = true;
 let focusSelfPlayerList = false;
 const playerList = document.getElementById("playerList");
 game.on("updateState", /** @param {State} state */ state => {
+    if (!window.updatePlayerList) return;
     while (playerList.firstChild) playerList.lastChild.remove();
 
+    const self = state.playerList.find(([name]) => name === game.USERNAME);
     const areas = sortAreas(state.playerList, areaMatcher.overworld);
 
-    playerList.append(...areas.map(createPlayerListSection));
+    playerList.append(...areas.map(area => createPlayerListSection(area, self)));
 
     if (focusSelfPlayerList) {
         playerList.getElementsByClassName("self")[0].scrollIntoView({ block: "center" });
@@ -673,10 +676,10 @@ game.on("initMap", () => focusSelfPlayerList = true);
 /**
  * @param {ReturnType<typeof sortAreas>[number]} section 
  */
-function createPlayerListSection(section) {
+function createPlayerListSection(section, self) {
     const [area, players] = section;
     const el = createElement("ol", ["playerListSection"], null,
-        players.map(createPlayerListPlayer)
+        players.map(player => createPlayerListPlayer(player, self))
     );
     el.dataset.area = area;
     el.style.setProperty("--hue", hashFloat(area) * 360);
@@ -685,14 +688,14 @@ function createPlayerListSection(section) {
 /**
  * @param {ReturnType<typeof sortAreas>[number][1][number]} player 
  */
-function createPlayerListPlayer(player) {
+function createPlayerListPlayer(player, self) {
     const [name, area, dead, frozen] = player;
     const el = createElement("li",
         [
             "playerListPlayer", 
             dead ? "dead" : null, 
             frozen ? "frozen" : null,
-            name === game.USERNAME ? "self" : null,
+            player[0] === self[0] ? "self" : null,
         ].filter(t => t),
         null,
         [

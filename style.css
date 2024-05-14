@@ -1,5 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Righteous&family=Russo%20One&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+
 :root {
-    --font: "Roboto", system-ui, sans-serif;
+    --font: "Roboto Condensed", system-ui, sans-serif;
 }
 
 html, body {
@@ -591,6 +593,7 @@ label[for="createGameFile"]:has([disabled]) {
 
 .playerListSection {
     --hue: 0;
+    --color: hsl(var(--hue), 100%, 50%);
     list-style: none;
     padding: .3em 0;
     border-bottom: .1em solid #ffffff20;
@@ -601,16 +604,16 @@ label[for="createGameFile"]:has([disabled]) {
 
     margin-bottom: .5em;
 
-    --color: hsl(var(--hue), 75%, 75%);
-    color: var(--color);
+    --titleColor: color-mix(in srgb, var(--color) 50%, #ffffff);
+    color: var(--titleColor);
     
     width: 100%;
     text-align: center;
-    border-bottom: .1em solid var(--color);
+    border-bottom: .1em solid var(--titleColor);
 }
 
 .playerListPlayer {
-    color: hsl(var(--hue), 75%, 95%);
+    color: color-mix(in srgb, var(--color) 10%, #ffffff);
     display: flex;
     flex-direction: row;
 
@@ -618,23 +621,24 @@ label[for="createGameFile"]:has([disabled]) {
 
     gap: .5em;
 }
+.playerListSection:has(.playerListPlayer.self) {
+    background-color: color-mix(in srgb, var(--color) 10%, transparent);
+}
+.playerListPlayer.self {    
+    background-color: color-mix(in srgb, var(--color) 5%, transparent);
+}
 .playerListPlayerPadding {
     display: inline-block;
     flex-grow: 1;
 
     background-image: linear-gradient(to bottom, transparent 45%, #ffffff40 45% 55%, transparent 55%);
 }
-.playerListPlayer.self {
-    background-color: hsla(var(--hue), 100%, 50%, 0.5);
-}
 .playerListPlayer.dead {
     color: var(--deadColor);
 }
-
 .playerListPlayer.frozen {
     color: var(--frozenColor);
 }
-
 .playerListPlayer.dead.frozen {
     color: var(--deadfrozenColor);
 }
