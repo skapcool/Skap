@@ -625,7 +625,7 @@ label[for="createGameFile"]:has([disabled]) {
     background-color: color-mix(in srgb, var(--color) 10%, transparent);
 }
 .playerListPlayer.self {    
-    background-color: color-mix(in srgb, var(--color) 5%, transparent);
+    background-color: color-mix(in srgb, var(--color) 30%, transparent);
 }
 .playerListPlayerPadding {
     display: inline-block;
