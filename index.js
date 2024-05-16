@@ -1478,6 +1478,9 @@ function debugFormat(number = 0, places = 0) {
 
     return number.toFixed(places);
 }
+function pad(str = "", width = 12) {
+    return str.padEnd(width, " ");
+}
 
 // #region Pos, Vel
 const posXSpan = document.getElementById("posX");
@@ -1488,13 +1491,13 @@ const velSpan = document.getElementById("vel");
 game.on("updateState", _ => {
     let me = game.state.players[game.state.infos.id];
 
-    posXSpan.innerText = debugFormat(me.pos.x, 2);
-    posYSpan.innerText = debugFormat(me.pos.y, 2);
+    posXSpan.innerText = pad(debugFormat(me.pos.x, 2));
+    posYSpan.innerText = pad(debugFormat(me.pos.y, 2));
 
-    velXSpan.innerText = debugFormat(me.vel.x, 2);
-    velYSpan.innerText = debugFormat(me.vel.y, 2);
+    velXSpan.innerText = pad(debugFormat(me.vel.x, 2));
+    velYSpan.innerText = pad(debugFormat(me.vel.y, 2));
 
-    velSpan.innerText = debugFormat(Math.hypot(me.vel.x, me.vel.y), 2);
+    velSpan.innerText = pad(debugFormat(Math.hypot(me.vel.x, me.vel.y), 2));
 });
 // #endregion
 
@@ -1505,9 +1508,9 @@ const aimSpan = document.getElementById("aim");
 game.on("aim", aim => {
     let me = game.state.me;
 
-    aimXSpan.innerText = debugFormat(aim.x, 2);
-    aimYSpan.innerText = debugFormat(aim.y, 2);
-    aimSpan.innerText = debugFormat(Math.hypot(me.pos.x - aim.x, me.pos.y - aim.y), 2);
+    aimXSpan.innerText = pad(debugFormat(aim.x, 2));
+    aimYSpan.innerText = pad(debugFormat(aim.y, 2));
+    aimSpan.innerText = pad(debugFormat(Math.hypot(me.pos.x - aim.x, me.pos.y - aim.y), 2));
 });
 // #endregion
 
@@ -1524,8 +1527,8 @@ function updateMSPF(ms) {
     while (mspf.length > DEBUG_LIMIT) mspf.shift();
 
     let mean = calcMean(mspf);
-    mspfMeanSpan.innerText = debugFormat(mean, 2);
-    mspfStdDevSpan.innerText = debugFormat(calcStdDev(mspf, mean), 2);
+    mspfMeanSpan.innerText = pad(debugFormat(mean, 2) + " ms");
+    mspfStdDevSpan.innerText = pad(debugFormat(calcStdDev(mspf, mean), 2) + " ms");
 }
 
 const fpsms = [];
@@ -1538,7 +1541,7 @@ function updateFPS(ms) {
 
     let mean = calcMean(fpsms);
 
-    fpsSpan.innerText = debugFormat(1000 / mean, 0);
+    fpsSpan.innerText = pad(debugFormat(1000 / mean, 0));
 }
 // #endregion
 
@@ -1555,10 +1558,10 @@ function updateMSPT(ms) {
     while (mspt.length > DEBUG_LIMIT) mspt.shift();
 
     let mean = calcMean(mspt);
-    msptMeanSpan.innerText = debugFormat(mean, 2);
-    msptStdDevSpan.innerText = debugFormat(calcStdDev(mspt, mean), 2);
+    msptMeanSpan.innerText = pad(debugFormat(mean, 2) + " ms");
+    msptStdDevSpan.innerText = pad(debugFormat(calcStdDev(mspt, mean), 2) + " ms");
 
-    tpsSpan.innerText = debugFormat(1000 / mean, 0);
+    tpsSpan.innerText = pad(debugFormat(1000 / mean, 0));
 }
 
 let prevTick = null;
@@ -1602,8 +1605,8 @@ game.once("join", _ => {
         let now = Date.now();
         let t = (now - lastT) / 1000;
 
-        wsReceiveSpan.innerText = debugFormat(calcSum(wsReceive) / t, 0);
-        wsSendSpan.innerText = debugFormat(calcSum(wsSend) / t, 0);
+        wsReceiveSpan.innerText = pad(debugFormat(calcSum(wsReceive) / t, 0) + " B/s");
+        wsSendSpan.innerText = pad(debugFormat(calcSum(wsSend) / t, 0) + " B/s");
 
         wsReceive.length = 0;
         wsSend.length = 0;

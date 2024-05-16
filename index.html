@@ -121,36 +121,42 @@
                     </div>
                 </div>
                 <button id="settingsBtn"></button>
-                <div id="debug" hidden>
-                    <span class="label">Pos</span>
-                    <span class="label">x:</span><span id="posX">0.00</span>
-                    <span class="label">y:</span><span id="posY">0.00</span>
-                    <span></span><span></span>
-
-                    <span class="label">Vel</span>
-                    <span class="label">x:</span><span id="velX">0.00</span>
-                    <span class="label">y:</span><span id="velY">0.00</span>
-                    <span class="label">Vel:</span><span id="vel">0.00</span>
-
-                    <span class="label">Aim</span>
-                    <span class="label">x:</span><span id="aimX">0.00</span>
-                    <span class="label">y:</span><span id="aimY">0.00</span>
-                    <span class="label">Aim:</span><span id="aim">0.00</span>
-
-                    <span class="label">MSPF</span>
-                    <span class="label">μ:</span><span id="mspfMean">16.67</span>
-                    <span class="label">σ:</span><span id="mspfStdDev">0.00</span>
-                    <span class="label">FPS:</span><span id="fps">60</span>
-
-                    <span class="label">MSPT</span>
-                    <span class="label">μ:</span><span id="msptMean">33.33</span>
-                    <span class="label">σ:</span><span id="msptStdDev">0.00</span>
-                    <span class="label">TPS:</span><span id="tps">30</span>
-
-                    <span class="label">WS</span>
-                    <span class="label">⭳:</span><span id="wsReceive">0</span>
-                    <span class="label">⭱:</span><span id="wsSend">0</span>
-                </div>
+                <table id="debug" hidden>   
+                    <tr>
+                        <th> Pos</th>
+                        <th>x:</th><td id="posX">N/A         </td>
+                        <th>y:</th><td id="posY">N/A         </td>
+                    </tr>
+                    <tr>
+                        <th> Vel</th>
+                        <th>x:</th><td id="velX">N/A         </td>
+                        <th>y:</th><td id="velY">N/A         </td>
+                        <th>Vel:</th><td id="vel">N/A         </td>
+                    </tr>
+                    <tr>
+                        <th> Aim</th>
+                        <th>x:</th><td id="aimX">N/A         </td>
+                        <th>y:</th><td id="aimY">N/A         </td>
+                        <th>Aim:</th><td id="aim">N/A         </td>
+                    </tr>
+                    <tr>
+                        <th>MSPF</th>
+                        <th>μ:</th><td id="mspfMean">N/A         </td>
+                        <th>σ:</th><td id="mspfStdDev">N/A         </td>
+                        <th>FPS:</th><td id="fps">N/A         </td>
+                    </tr>
+                    <tr>
+                        <th>MSPT</th>
+                        <th>μ:</th><td id="msptMean">N/A         </td>
+                        <th>σ:</th><td id="msptStdDev">N/A         </td>
+                        <th>TPS:</th><td id="tps">N/A         </td>
+                    </tr>
+                    <tr>
+                        <th>  WS</th>
+                        <th>⭳:</th><td id="wsReceive">N/A         </td>
+                        <th>⭱:</th><td id="wsSend">N/A         </td>
+                    </tr>
+                </table>
             </div>
         </div>
         <div id="settings" hidden>

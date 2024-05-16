@@ -1109,35 +1109,25 @@ label[for="createGameFile"]:has([disabled]) {
     inset: auto .5em .5em auto;
     padding: .5em;
 
-    display: grid;
-    grid-template-columns: auto auto 5em auto 4.5em auto 4em;
-    gap: .4em .2em;
-
     background: #000000c0;
     border: .2em solid white;
     border-radius: .5em .2em .2em .2em;
 
     font-size: .75em;
     font-family: monospace;
+    white-space: pre;
+    user-select: all;
 }
 #debug[hidden] { display: none; }
 
-.label {
+#debug :where(th, td) {
+    /* outline: 1px solid #f0f4; */
+    padding: .1em .25em;
+}
+#debug th {
     text-align: right;
-    margin-left: .5em;
+    padding-left: .5em;
 }
-
-#mspfMean::after, #mspfStdDev::after,
-#msptMean::after, #msptStdDev::after {
-    content: "ms";
-    margin-left: .3em;
-}
-
-#wsReceive::after, #wsSend::after {
-    content: "B/s";
-    margin-left: .3em;
-}
-
 /* #endregion */
 
 /* #endregion game */
