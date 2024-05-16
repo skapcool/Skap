@@ -1,6 +1,7 @@
 import Controller from "./js/Controller.js";
 import Game from "./js/Game.js";
 import Loader from "./js/Loader.js";
+import SkapMap from "./js/Map.js";
 import { DashParticle, ExplosionParticle, FeatherParticle, JetpackParticle, ShrinkingParticle, vecPol } from "./js/Particle.js";
 import Renderer from "./js/Renderer.js";
 import SHA256 from "./js/SHA256.js";
@@ -41,7 +42,7 @@ let currentTimeout = null;
 function changeScreen(screen) {
     if (screen === activeScreen) return;
     clearTimeout(currentTimeout);
-    
+
     const duration = 500;
 
     activeScreen.tabIndex = -1;
@@ -676,44 +677,147 @@ function handleJoinForAreaMatcher(game) {
 window.updatePlayerList = true;
 let focusSelfPlayerList = false;
 const playerList = document.getElementById("playerList");
+
 game.on("updateState", /** @param {State} state */ state => {
     if (!window.updatePlayerList) return;
-    while (playerList.firstChild) playerList.lastChild.remove();
 
-    const self = state.playerList.find(([name]) => name === game.USERNAME);
+
     const areas = sortAreas(state.playerList, currentAreaMatcher);
-
-    playerList.append(...areas.map(area => createPlayerListSection(area, self)));
+    
+    const self = updatePlayerList(areas);
 
     if (focusSelfPlayerList) {
-        playerList.getElementsByClassName("self")[0].scrollIntoView({ block: "center" });
+        self.scrollIntoView({ block: "center" });
         focusSelfPlayerList = false;
     }
 });
+// game.on("join", () => focusSelfPlayerList = true);
 game.on("initMap", () => focusSelfPlayerList = true);
+
+
+// #region update player list
+/** @type {Map<string, HTMLElement>} */
+const playerListAreaMap = new Map();
+/** @type {Map<string, HTMLElement>} */
+const playerListPlayerMap = new Map();
+
+Object.assign(window, {
+    playerListAreaMap,
+    playerListPlayerMap
+});
+
+function resetPlayerList() {
+    playerListAreaMap.forEach(area => area.remove());
+    playerListPlayerMap.forEach(player => player.remove());
+
+    playerListPlayerMap.clear();
+    playerListAreaMap.clear();
+}
 /**
- * @param {ReturnType<typeof sortAreas>[number]} section 
+ * Assumes areas do not change order
+ * @param {ReturnType<typeof sortAreas>} areas
+ * @returns {HTMLElement}
  */
-function createPlayerListSection(section, self) {
-    const [area, players] = section;
-    const el = createElement("ol", ["playerListSection"], null,
-        players.map(player => createPlayerListPlayer(player, self))
-    );
-    el.dataset.area = area;
-    el.style.setProperty("--hue", hashFloat(area) * 360);
+function updatePlayerList(areas) {
+    const areaNames = areas.map(([name]) => name);
+    const playerNames = areas.flatMap(([, players]) => players.map(([name]) => name));
+
+    playerListAreaMap.forEach(area => {
+        if (!areaNames.includes(area.dataset.name)) {
+            area.remove();
+        }
+    });
+    playerListPlayerMap.forEach(player => {
+        if (!playerNames.includes(player.dataset.name)) {
+            player.remove();
+        }
+    });
+
+    let selfPlayer = null;
+
+    /** @type {HTMLElement | null} */
+    let prevAreaEl = null;
+    for (const area of areas) {
+        const [areaName, players] = area;
+        const areaEl = getPlayerListArea(area);
+
+        /** @type {HTMLElement | null} */
+        let prevPlayerEl = null;
+        for (const player of players) {
+            const [playerName] = player;
+            const playerEl = getPlayerListPlayer(player);
+
+            if (playerEl.classList.contains("self")) selfPlayer = playerEl;
+
+            if (prevPlayerEl) { // previous player
+                if (playerEl.previousSibling !== prevPlayerEl) {
+                    prevPlayerEl.insertAdjacentElement("afterend", playerEl);
+                }
+            } else { // no previous player
+                if (playerEl !== areaEl.firstChild) { // check if already at start
+                    areaEl.insertAdjacentElement("afterbegin", playerEl);
+                }
+            }
+            prevPlayerEl = playerEl;
+        }
+
+        if (prevAreaEl) { // previous area
+            if (areaEl.previousSibling !== prevAreaEl) {
+                prevAreaEl.insertAdjacentElement("afterend", areaEl);
+            }
+        } else { // no previous area
+            if (areaEl !== playerList.firstChild) { // check if already at start
+                playerList.insertAdjacentElement("afterbegin", areaEl);
+            }
+        }
+        prevAreaEl = areaEl;
+    }
+
+    return selfPlayer;
+}
+/**
+ * @param {ReturnType<typeof sortAreas>[0]} area
+ */
+function getPlayerListArea(area) {
+    const [name] = area;
+    const get = playerListAreaMap.get(name);
+    if (get) return get;
+    const set = createPlayerListArea(area);
+    playerListAreaMap.set(name, set);
+    return set;
+}
+/**
+ * @param {import("./js/playerList.js").PlayerListItem} player
+ */
+function getPlayerListPlayer(player) {
+    const [name] = player;
+    const get = playerListPlayerMap.get(name);
+    if (get) return get;
+    const set = createPlayerListPlayer(player);
+    playerListPlayerMap.set(name, set);
+    return set;
+}
+/**
+ * @param {ReturnType<typeof sortAreas>[number]} area 
+ */
+function createPlayerListArea(area) {
+    const [areaName, players] = area;
+    const el = createElement("ol", ["playerListArea"], null, []);
+    el.dataset.name = areaName;
+    el.style.setProperty("--hue", hashFloat(areaName) * 360);
     return el;
 }
 /**
  * @param {ReturnType<typeof sortAreas>[number][1][number]} player 
  */
-function createPlayerListPlayer(player, self) {
+function createPlayerListPlayer(player) {
     const [name, area, dead, frozen] = player;
     const el = createElement("li",
         [
-            "playerListPlayer", 
-            dead ? "dead" : null, 
+            "playerListPlayer",
+            dead ? "dead" : null,
             frozen ? "frozen" : null,
-            player[0] === self[0] ? "self" : null,
+            name === game.USERNAME ? "self" : null,
         ].filter(t => t),
         null,
         [
@@ -722,8 +826,11 @@ function createPlayerListPlayer(player, self) {
             createElement("span", ["playerListPlayerArea"], null, [area]),
         ]
     );
+    el.dataset.name = name;
     return el;
 }
+// #endregion
+
 // #endregion
 
 // #region Controls

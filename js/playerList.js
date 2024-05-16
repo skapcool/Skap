@@ -280,10 +280,10 @@ const sortWithArray = (a, b, arr) => {
  * returns ([
  * 	["Exodus", [
  * 		["Player1", "Exodus 10", true, false],
- * 		]["Player3", "Exodus 50 BOSS", true, false],
+ * 		["Player3", "Exodus 50 BOSS", true, false],
  * 		["Player2", "Exodus 50 VICTORY", false, false], // sorted with proper "<other>" handling
  * 		["Player0", "Exodus 150 VICTORY", false, false], // sorted from start to end
- * 	],
+ * 	]],
  * 	["Battlefield", [
  * 		["Player5", "Battlefield 10", false, false],
  * 	]],

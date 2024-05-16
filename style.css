@@ -591,15 +591,15 @@ label[for="createGameFile"]:has([disabled]) {
     --deadfrozenColor: #c040c0;
 }
 
-.playerListSection {
+.playerListArea {
     --hue: 0;
     --color: hsl(var(--hue), 100%, 50%);
     list-style: none;
     padding: .3em 0;
     border-bottom: .1em solid #ffffff20;
 }
-.playerListSection::before {
-    content: attr(data-area);
+.playerListArea::before {
+    content: attr(data-name);
     display: block;
 
     margin-bottom: .5em;
@@ -621,7 +621,7 @@ label[for="createGameFile"]:has([disabled]) {
 
     gap: .5em;
 }
-.playerListSection:has(.playerListPlayer.self) {
+.playerListArea:has(.playerListPlayer.self) {
     background-color: color-mix(in srgb, var(--color) 10%, transparent);
 }
 .playerListPlayer.self {    
