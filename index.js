@@ -740,6 +740,7 @@ function updatePlayerList(areas) {
     for (const area of areas) {
         const [areaName, players] = area;
         const areaEl = getPlayerListArea(area);
+        updatePlayerListArea(areaEl, area);
 
         /** @type {HTMLElement | null} */
         let prevPlayerEl = null;
@@ -778,6 +779,15 @@ function updatePlayerList(areas) {
     }
 
     return selfPlayer;
+}
+
+/**
+ * @param {HTMLElement} areaEl 
+ * @param {ReturnType<typeof sortAreas>[0]} area
+ */
+function updatePlayerListArea(areaEl, area) {
+    const [areaName, players] = area;
+    areaEl.dataset.num = players.length;
 }
 /**
  * @param {HTMLElement} playerEl 
@@ -821,6 +831,7 @@ function createPlayerListArea(area) {
     const [areaName, players] = area;
     const el = createElement("ol", ["playerListArea"], null, []);
     el.dataset.name = areaName;
+    el.dataset.num = players.length;
     el.style.setProperty("--hue", hashFloat(areaName) * 360);
     return el;
 }
