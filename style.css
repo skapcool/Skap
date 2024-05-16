@@ -611,6 +611,9 @@ label[for="createGameFile"]:has([disabled]) {
     text-align: center;
     border-bottom: .1em solid var(--titleColor);
 }
+.playerListArea:has(.playerListPlayer.self) {
+    background-color: color-mix(in srgb, var(--color) 10%, transparent);
+}
 
 .playerListPlayer {
     color: color-mix(in srgb, var(--color) 10%, #ffffff);
@@ -621,8 +624,11 @@ label[for="createGameFile"]:has([disabled]) {
 
     gap: .5em;
 }
-.playerListArea:has(.playerListPlayer.self) {
-    background-color: color-mix(in srgb, var(--color) 10%, transparent);
+.playerListPlayer::before {
+    content: attr(data-name);
+}
+.playerListPlayer::after {
+    content: attr(data-area);
 }
 .playerListPlayer.self {    
     background-color: color-mix(in srgb, var(--color) 30%, transparent);

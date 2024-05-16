@@ -683,7 +683,7 @@ game.on("updateState", /** @param {State} state */ state => {
 
 
     const areas = sortAreas(state.playerList, currentAreaMatcher);
-    
+
     const self = updatePlayerList(areas);
 
     if (focusSelfPlayerList) {
@@ -747,8 +747,11 @@ function updatePlayerList(areas) {
             const [playerName] = player;
             const playerEl = getPlayerListPlayer(player);
 
+            updatePlayerListPlayer(playerEl, player);
+
             if (playerEl.classList.contains("self")) selfPlayer = playerEl;
 
+            
             if (prevPlayerEl) { // previous player
                 if (playerEl.previousSibling !== prevPlayerEl) {
                     prevPlayerEl.insertAdjacentElement("afterend", playerEl);
@@ -758,6 +761,7 @@ function updatePlayerList(areas) {
                     areaEl.insertAdjacentElement("afterbegin", playerEl);
                 }
             }
+            if (playerEl.parentNode !== areaEl) debugger;
             prevPlayerEl = playerEl;
         }
 
@@ -774,6 +778,19 @@ function updatePlayerList(areas) {
     }
 
     return selfPlayer;
+}
+/**
+ * @param {HTMLElement} playerEl 
+ * @param {import("./js/playerList.js").PlayerListItem} player
+ */
+function updatePlayerListPlayer(playerEl, player) {
+    const [name, area, dead, frozen] = player;
+    const elDead = playerEl.classList.contains("dead");
+    const elFrozen = playerEl.classList.contains("frozen");
+    if (dead !== elDead) playerEl.classList.toggle("dead");
+    if (frozen !== elFrozen) playerEl.classList.toggle("frozen");
+
+    if (playerEl.dataset.area !== area) playerEl.dataset.area = area;
 }
 /**
  * @param {ReturnType<typeof sortAreas>[0]} area
@@ -821,12 +838,11 @@ function createPlayerListPlayer(player) {
         ].filter(t => t),
         null,
         [
-            createElement("span", ["playerListPlayerName"], null, [name]),
             createElement("span", ["playerListPlayerPadding"]),
-            createElement("span", ["playerListPlayerArea"], null, [area]),
         ]
     );
     el.dataset.name = name;
+    el.dataset.area = area;
     return el;
 }
 // #endregion
