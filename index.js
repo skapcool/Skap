@@ -39,6 +39,7 @@ let currentTimeout = null;
  * @param {0 | 1} direction 0 = to left, 1 = to right
  */
 function changeScreen(screen) {
+    if (screen === activeScreen) return;
     clearTimeout(currentTimeout);
     
     const duration = 500;
@@ -49,7 +50,7 @@ function changeScreen(screen) {
         { left: "-100dvw" }
     ], { duration, easing: "ease-in-out", fill: "forwards" });
     currentTimeout = setTimeout((curr, next) => {
-        hide(curr);
+        if (curr !== activeScreen) hide(curr);
         next.tabIndex = 0;
         currentTimeout = null;
     }, duration, activeScreen, screen);
