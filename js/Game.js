@@ -372,6 +372,7 @@ export default class Game {
         state.me = state.players[state.infos.id];
 
         this.state = state;
+        this.USERNAME = state.me.name;
 
         this.newState.update(state);
         this.emit("updateState", this.state);
